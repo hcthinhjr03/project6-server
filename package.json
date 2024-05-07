@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server photo-sharing-app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hcthinhjr03/project6-server.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "photosharingapp"
+  ],
+  "author": "hcthinhjr03",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hcthinhjr03/project6-server/issues"
+  },
+  "homepage": "https://github.com/hcthinhjr03/project6-server#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4",
+    "nodemon": "^3.1.0"
+  }
+}
