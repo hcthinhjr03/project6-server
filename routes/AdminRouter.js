@@ -3,6 +3,9 @@ const Users = require("../db/userModel");
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const fs = require('fs');
+const verifyToken = require("../helpers/verifyToken");
+const privateKey = fs.readFileSync('private.key');
+
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -11,7 +14,6 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-    var privateKey = fs.readFileSync('private.key');
     const token = jwt.sign({ user }, privateKey, { expiresIn: "1h" });
     res.json({ token });
   } catch (err) {
@@ -20,8 +22,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
-  res.send("Please Login");
+router.post("/logout", verifyToken, async (req, res) => {
+  res.json({ message: 'Logged out successfully'});
 });
 
 module.exports = router;

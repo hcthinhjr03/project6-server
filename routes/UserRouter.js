@@ -1,40 +1,52 @@
 const express = require("express");
-const User = require("../db/userModel");
+const Users = require("../db/userModel");
 const router = express.Router();
 
-router.post("/", async (request, response) => {});
-
-router.get("/list", async (request, response) => {
+router.post("/register", async (req, res) => {
+  const {username, password, first_name, last_name, location, description, occupation} = req.body;
   try {
-    const users = await User.find({});
-    console.log("** Read server path /user/list Success! **");
+    const user = await Users.find({username});
+    if(user.length > 0) {
+      return res.status(401).json({message: "User already exist!"});
+    }
+    const newUser = await Users.create({username, password, first_name, last_name, location, description, occupation});
+    if(!newUser){
+      return res.status(401).json({messeage: "Fail!"});
+    }
+    res.status(200).json({message: "Register Succesfully"});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/list", async (req, res) => {
+  try {
+    const users = await Users.find({});
     const newUsers = users.map((user) => {
       const { first_name, last_name, _id } = user;
       return { first_name, last_name, _id };
     });
-    response.json(newUsers);
+    res.json(newUsers);
   } catch (err) {
-    console.log("** Get user list: Error! **");
-    response.status(500).send(JSON.stringify(err));
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.get("/:id", async (request, response) => {
   try {
     const id = request.params.id;
-    const user = await User.findOne({ _id: id });
+    const user = await Users.findOne({ _id: id });
 
     if (!user) {
-      console.log(`** User ${id}: Not Found! **`);
       return response.status(404).send("User not found");
     }
-
-    console.log(`** Read server path /user/${id} Success! **`);
     delete user.__v;
     response.json(user);
   } catch (err) {
-    console.log(`** User ${id}: Error! **`);
-    response.status(500).send(JSON.stringify(err));
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
