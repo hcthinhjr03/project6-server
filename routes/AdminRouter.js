@@ -11,7 +11,7 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await Users.find({ username, password });
-    if (!user) {
+    if (user.length == 0) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
     const token = jwt.sign({ user }, privateKey, { expiresIn: "1h" });

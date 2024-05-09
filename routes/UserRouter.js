@@ -1,6 +1,7 @@
 const express = require("express");
 const Users = require("../db/userModel");
 const router = express.Router();
+const verifyToken = require("../helpers/verifyToken");
 
 router.post("/register", async (req, res) => {
   const {username, password, first_name, last_name, location, description, occupation} = req.body;
@@ -34,16 +35,32 @@ router.get("/list", async (req, res) => {
   }
 });
 
-router.get("/:id", async (request, response) => {
+router.get("/:id", async (req, res) => {
   try {
-    const id = request.params.id;
+    const id = req.params.id;
     const user = await Users.findOne({ _id: id });
 
     if (!user) {
-      return response.status(404).send("User not found");
+      return res.status(404).send("User not found");
     }
     delete user.__v;
-    response.json(user);
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.post("/username", async (req, res) => {
+  try {
+    const { username } = req.body;
+    const user = await Users.find({username: username});
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    delete user.__v;
+    res.json(user);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
