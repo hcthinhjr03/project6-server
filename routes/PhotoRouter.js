@@ -3,6 +3,10 @@ const Photos = require("../db/photoModel");
 const Users = require("../db/userModel");
 const router = express.Router();
 const verifyToken = require("../helpers/verifyToken");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
+
 
 router.post("/", async (req, res) => {});
 
@@ -74,6 +78,38 @@ router.get("/comment/:photoId", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     response.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/upload", verifyToken, async (req, res) => {
+  try {
+    const photo = {
+      file_name: req.body.file_name,
+      user_id: req.user[0]._id,
+    };
+    const newPhoto = await Photos.create(photo);
+    if(!newPhoto){
+      res.status(400).send("Fail");
+    }
+    res.json(newPhoto);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const photoId = req.params.id;
+    const delPhoto = await Photos.deleteOne({_id: photoId});
+    if(delPhoto.deletedCount === 0){
+      res.status(404).send("Photo not found!")
+    }
+    res.json({message: "Delete Success!"});
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
