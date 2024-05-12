@@ -3,6 +3,7 @@ const Users = require("../db/userModel");
 const router = express.Router();
 const verifyToken = require("../helpers/verifyToken");
 
+//dang ky 
 router.post("/register", async (req, res) => {
   const {username, password, first_name, last_name, location, description, occupation} = req.body;
   try {
@@ -21,6 +22,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//Lay danh sach user
 router.get("/list", async (req, res) => {
   try {
     const users = await Users.find({});
@@ -35,6 +37,7 @@ router.get("/list", async (req, res) => {
   }
 });
 
+//Lay user voi userId
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -51,6 +54,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//Lay user voi user name
 router.post("/username", async (req, res) => {
   try {
     const { username } = req.body;

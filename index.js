@@ -7,7 +7,6 @@ const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const AdminRouter = require("./routes/AdminRouter");
-const PageRouter = require("./routes/PageRouter");
 const privateKey = fs.readFileSync('private.key');
 
 //database connection
@@ -34,7 +33,6 @@ app.use(express.json());
 app.use("/admin", AdminRouter);
 app.use("/user", UserRouter);
 app.use("/photo", PhotoRouter);
-app.use("/page", PageRouter);
 
 app.get("/", (req, res) => {
   res.send({ message: "Hello from photo-sharing app API!" });

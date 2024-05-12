@@ -6,7 +6,7 @@ const fs = require('fs');
 const verifyToken = require("../helpers/verifyToken");
 const privateKey = fs.readFileSync('private.key');
 
-
+//dang nhap
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -22,6 +22,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//dang xuat
 router.post("/logout", verifyToken, async (req, res) => {
   res.json({ message: 'Logged out successfully'});
 });

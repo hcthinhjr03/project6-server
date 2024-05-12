@@ -6,10 +6,7 @@ const verifyToken = require("../helpers/verifyToken");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
-
-
-router.post("/", async (req, res) => {});
-
+//Lay anh cua user theo userid
 router.get("/:id", async function (request, response) {
   try {
     var id = request.params.id;
@@ -37,6 +34,8 @@ router.get("/:id", async function (request, response) {
   }
 });
 
+
+//Tao comment moi theo photoId
 router.post("/comment/:photoId", verifyToken, async (req, res) => {
   try {
     const photoId = req.params.photoId;
@@ -58,6 +57,7 @@ router.post("/comment/:photoId", verifyToken, async (req, res) => {
   }
 });
 
+//Lay tat ca comment cua anh theo photoId
 router.get("/comment/:photoId", async (req, res) => {
   try {
     const photoId = req.params.photoId;
@@ -81,6 +81,7 @@ router.get("/comment/:photoId", async (req, res) => {
   }
 });
 
+//Tao photo moi
 router.post("/upload", verifyToken, async (req, res) => {
   try {
     const photo = {
@@ -98,6 +99,7 @@ router.post("/upload", verifyToken, async (req, res) => {
   }
 });
 
+//Xoa photo theo photoId
 router.delete("/:id", async (req, res) => {
   try {
     const photoId = req.params.id;
