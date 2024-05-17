@@ -39,6 +39,8 @@ app.get("/", (req, res) => {
 });
 
 
+app.use("/uploads", express.static('./uploads'));
+
 app.listen(3006, () => {
   console.log("server listening on port 3006");
 });
